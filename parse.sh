@@ -127,7 +127,8 @@ for f in input/*.pdf; do
                 pos=$(echo "$line" | grep -bo "$amount" | awk -F: '{print $1}')
 
                 # Checks whether it's credit/debit
-                if [ $(echo "100 * $pos / $lineLength > $PERCENTAGE_CREDIT" | bc) -eq 1 ]; then
+                opType=$(echo "$op" | awk -F\; '{print $2}')
+                if [ "$opType" == "AVOIR" ] || [ $(echo "100 * $pos / $lineLength > $PERCENTAGE_CREDIT" | bc) -eq 1 ]; then
                     credeb="credit"
                 else
                     credeb="debit"
